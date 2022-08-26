@@ -1,3 +1,4 @@
+import 'package:demo_photo_gallery/screens/home_screen.dart';
 import 'package:demo_photo_gallery/screens/photo_gallery_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
-      home: PhotoGallery(),
+      home: HomeScreen(),
     );
   }
 }
