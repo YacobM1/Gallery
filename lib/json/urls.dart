@@ -7,26 +7,15 @@ part 'urls.g.dart';
 
 @JsonSerializable()
 class ElementList {
-  final List<Images> images;
+  final Urls urls;
 
-  ElementList(this.images);
+  ElementList(this.urls);
   // List<Element> urls;
   // ElementList({required this.urls});
   //
   factory ElementList.fromJson (Map<String, dynamic> json) => _$ElementListFromJson(json);
 
   Map<String, dynamic> toJson() => _$ElementListToJson(this);
-}
-
-@JsonSerializable()
-class Images {
-  Urls urls;
-
-  Images({required this.urls});
-
-  factory Images.fromJson(Map<String, dynamic> json) => _$ImagesFromJson(json);
-
-  Map<String, dynamic> toJson() => _$ImagesToJson(this);
 }
 
 
@@ -46,14 +35,15 @@ class Urls {
 
 
 
-  Future<ElementList> getElementList() async {
+  Future<List<ElementList>> getElementList() async {
     final uri = Uri.parse(
         'https://api.unsplash.com/photos?page=1&client_id=$unsplashApiKey');
     final response = await http.get(uri);
 
     if (response.statusCode == 200) {
-      print (response.body);
-      return ElementList.fromJson(json.decode(response.body));
+      final q = json.decode(response.body);
+      List<ElementList> posts = List<ElementList>.from(q.map((model)=> ElementList.fromJson(model)));
+      return posts;
     } else {
       throw Exception('Error: ${response.reasonPhrase}');
     }
